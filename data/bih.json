@@ -1,0 +1,179 @@
+{
+    "Kozarska Dubica": [
+        [
+            "Kostajnica",
+            71
+        ],
+        [
+            "Banja Luka",
+            151
+        ]
+    ],
+    "Kostajnica": [
+        [
+            "Novi Grad",
+            75
+        ],
+        [
+            "Kozarska Dubica",
+            71
+        ]
+    ],
+    "Novi Grad": [
+        [
+            "Banja Luka",
+            140
+        ],
+        [
+            "Mrkonjic Grad",
+            118
+        ],
+        [
+            "Kostajnica",
+            75
+        ]
+    ],
+    "Mrkonjic Grad": [
+        [
+            "Sipovo",
+            111
+        ],
+        [
+            "Novi Grad",
+            118
+        ]
+    ],
+    "Sipovo": [
+        [
+            "Donji Vakuf",
+            70
+        ],
+        [
+            "Mrkonjic Grad",
+            111
+        ]
+    ],
+    "Donji Vakuf": [
+        [
+            "Bugojno",
+            75
+        ],
+        [
+            "Sipovo",
+            70
+        ]
+    ],
+    "Bugojno": [
+        [
+            "Gornji Vakuf",
+            120
+        ],
+        [
+            "Donji Vakuf",
+            75
+        ]
+    ],
+    "Banja Luka": [
+        [
+            "Prnjavor",
+            99
+        ],
+        [
+            "Kotor Varos",
+            80
+        ],
+        [
+            "Novi Grad",
+            140
+        ],
+        [
+            "Kozarska Dubica",
+            151
+        ]
+    ],
+    "Prnjavor": [
+        [
+            "Doboj",
+            211
+        ],
+        [
+            "Banja Luka",
+            99
+        ]
+    ],
+    "Kotor Varos": [
+        [
+            "Banja Luka",
+            80
+        ],
+        [
+            "Teslic",
+            97
+        ],
+        [
+            "Gornji Vakuf",
+            146
+        ]
+    ],
+    "Teslic": [
+        [
+            "Kotor Varos",
+            97
+        ],
+        [
+            "Gornji Vakuf",
+            138
+        ],
+        [
+            "Doboj",
+            101
+        ]
+    ],
+    "Gornji Vakuf": [
+        [
+            "Kotor Varos",
+            146
+        ],
+        [
+            "Teslic",
+            138
+        ],
+        [
+            "Bugojno",
+            120
+        ]
+    ],
+    "Doboj": [
+        [
+            "Prnjavor",
+            211
+        ],
+        [
+            "Teslic",
+            101
+        ],
+        [
+            "Tuzla",
+            85
+        ]
+    ],
+    "Tuzla": [
+        ["Doboj", 85],
+        ["Zvornik", 98],
+        ["Ugljevik", 142]
+    ],
+    "Ugljevik": [
+        ["Tuzla", 98],
+        ["Bijeljina", 92]
+    ],
+    "Bijeljina": [
+        ["Ugljevik", 92],
+        ["Brcko", 87]
+    ],
+    "Brcko": [
+        ["Bijeljina", 87]
+    ],
+    "Zvornik": [
+        ["Tuzla", 98]
+    ]
+}
