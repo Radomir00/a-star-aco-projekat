@@ -1,8 +1,31 @@
+import json
+from math import sqrt
+
 from graph import Graph, load_graph_from_json
 
 
 def null_heuristic(cvor):
     return 0
+
+
+def load_koordinate(path):
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def napravi_heuristiku(koordinate, cilj):
+    if cilj not in koordinate:
+        raise ValueError(f"Nema koordinata za ciljni grad {cilj}")
+
+    cx, cy = koordinate[cilj]
+
+    def h(cvor):
+        if cvor not in koordinate:
+            return 0
+        x, y = koordinate[cvor]
+        return sqrt((x - cx) ** 2 + (y - cy) ** 2)
+
+    return h
 
 
 def sljedeci_cvor(opcije, udaljenosti):
@@ -19,7 +42,7 @@ def astar(graph: Graph, prvi, trazeni, h=null_heuristic):
     if trazeni not in graph.graph:
         raise ValueError(f"Ciljni cvor '{trazeni}' ne postoji u grafu.")
 
-    opcije = set([prvi])
+    opcije = {prvi}
 
     min_udaljenosti = {v: float("inf") for v in graph.graph}
     min_udaljenosti[prvi] = 0
@@ -67,9 +90,12 @@ def astar(graph: Graph, prvi, trazeni, h=null_heuristic):
 
 if __name__ == "__main__":
     g = load_graph_from_json("data/bih.json")
+    koordinate = load_koordinate("data/koordinate.json")
 
     start, cilj = "Banja Luka", "Tuzla"
-    put, cijena, broj_iteracija = astar(g, start, cilj)
+    h = napravi_heuristiku(koordinate, cilj)
+
+    put, cijena, broj_iteracija = astar(g, start, cilj, h)
 
     if put is None:
         print(f"Ne postoji put izmedju {start} i {cilj}.")
