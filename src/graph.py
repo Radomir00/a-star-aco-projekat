@@ -18,11 +18,19 @@ class Graph:
     def neighbors(self, node):
         return self.graph.get(node, [])
 
-    def weight(self, node_a, node_b):
+    def weight(self, node_a, node_b) -> float | None:
         for neighbor, w in self.graph.get(node_a, []):
             if neighbor == node_b:
                 return w
         return None
+
+    def set_weight(self, node_a, node_b, nova_tezina):
+        for i, (susjed, _) in enumerate(self.graph.get(node_a, [])):
+            if susjed == node_b:
+                self.graph[node_a][i] = (susjed, nova_tezina)
+        for i, (susjed, _) in enumerate(self.graph.get(node_b, [])):
+            if susjed == node_a:
+                self.graph[node_b][i] = (susjed, nova_tezina)
 
     def nodes(self):
         return list(self.graph.keys())

@@ -37,7 +37,9 @@ def izaberi_sledeci_cvor(graph: Graph, feromoni, trenutni, posjeceni, alfa, beta
     return izabrani
 
 
-def izgradi_rutu(graph: Graph, feromoni, start, cilj, alfa, beta, max_koraka=100):
+def izgradi_rutu(
+    graph: Graph, feromoni, start, cilj, alfa, beta, max_koraka=100
+) -> tuple[list, float] | None:
     put = [start]
     posjeceni = {start}
     trenutni = start
@@ -47,17 +49,18 @@ def izgradi_rutu(graph: Graph, feromoni, start, cilj, alfa, beta, max_koraka=100
     while trenutni != cilj and koraci < max_koraka:
         sledeci = izaberi_sledeci_cvor(graph, feromoni, trenutni, posjeceni, alfa, beta)
 
-        if sledeci is None:
-            return None, None  # mrav zaglavio, nema kud dalje
+        tezina_grane = graph.weight(trenutni, sledeci)
+        if tezina_grane is None:
+            return None
 
-        cijena += graph.weight(trenutni, sledeci)
+        cijena += tezina_grane
         put.append(sledeci)
         posjeceni.add(sledeci)
         trenutni = sledeci
         koraci += 1
 
     if trenutni != cilj:
-        return None, None  # nije stigao do cilja u dozvoljenom broju koraka
+        return None  # nije stigao do cilja u dozvoljenom broju koraka
 
     return put, cijena
 
@@ -85,13 +88,17 @@ def aco(
     rho=0.5,
     Q=100,
     max_koraka=100,
+    pocetni_feromoni=None,
 ):
     if start not in graph.graph:
         raise ValueError(f"Pocetni cvor '{start}' ne postoji u grafu.")
     if cilj not in graph.graph:
         raise ValueError(f"Ciljni cvor '{cilj}' ne postoji u grafu.")
 
-    feromoni = inicijalizuj_feromone(graph)
+    if pocetni_feromoni is not None:
+        feromoni = pocetni_feromoni
+    else:
+        feromoni = inicijalizuj_feromone(graph)
 
     najbolji_put = None
     najbolja_cijena = float("inf")
@@ -100,11 +107,12 @@ def aco(
         uspjesne_rute = []
 
         for mrav in range(broj_mrava):
-            put, cijena = izgradi_rutu(
+            rezultat = izgradi_rutu(
                 graph, feromoni, start, cilj, alfa, beta, max_koraka
             )
 
-            if put is not None:
+            if rezultat is not None:
+                put, cijena = rezultat
                 uspjesne_rute.append((put, cijena))
                 if cijena < najbolja_cijena:
                     najbolja_cijena = cijena
@@ -117,7 +125,7 @@ def aco(
             for grana in feromoni:
                 feromoni[grana] *= 1 - rho
 
-    return najbolji_put, najbolja_cijena, broj_iteracija
+    return najbolji_put, najbolja_cijena, broj_iteracija, feromoni
 
 
 if __name__ == "__main__":
@@ -125,8 +133,8 @@ if __name__ == "__main__":
 
     g = load_graph_from_json("data/bih.json")
 
-    start, cilj = "Banja Luka", "Tuzla"
-    put, cijena, broj_iteracija = aco(g, start, cilj)
+    start, cilj = "Banja Luka", "Doboj"
+    put, cijena, broj_iteracija, feromoni = aco(g, start, cilj)
 
     if put is None:
         print(f"ACO nije pronasao put izmedju {start} i {cilj}.")

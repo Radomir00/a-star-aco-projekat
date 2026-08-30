@@ -92,7 +92,7 @@ if __name__ == "__main__":
     g = load_graph_from_json("data/bih.json")
     koordinate = load_koordinate("data/koordinate.json")
 
-    start, cilj = "Banja Luka", "Tuzla"
+    start, cilj = "Banja Luka", "Doboj"
     h = napravi_heuristiku(koordinate, cilj)
 
     put, cijena, broj_iteracija = astar(g, start, cilj, h)
