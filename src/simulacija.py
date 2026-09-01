@@ -2,24 +2,8 @@ import random
 
 from aco import aco
 from astar import astar, load_koordinate, napravi_heuristiku
-from graph import Graph, load_graph_from_json
-
-
-def zatvori_ulicu(graph: Graph, cvor_a, cvor_b):
-    graph.set_weight(cvor_a, cvor_b, None)
-
-
-def promjeni_saobracaj(graph: Graph, cvor_a, cvor_b, faktor):
-    trenutna = graph.weight(cvor_a, cvor_b)
-    if trenutna is not None:
-        graph.set_weight(cvor_a, cvor_b, trenutna * faktor)
-
-
-def dodaj_prepreku(graph: Graph, cvor_a, cvor_b, dodatna_tezina):
-    trenuna = graph.weight(cvor_a, cvor_b)
-    if trenuna is not None:
-        graph.set_weight(cvor_a, cvor_b, trenuna + dodatna_tezina)
-
+from graph import load_graph_from_json
+from promjene import *
 
 if __name__ == "__main__":
     random.seed(42)

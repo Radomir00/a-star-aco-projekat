@@ -81,8 +81,8 @@ def aco(
     graph: Graph,
     start,
     cilj,
-    broj_mrava=10,
-    broj_iteracija=50,
+    broj_mrava=30,
+    broj_iteracija=150,
     alfa=1.0,
     beta=2.0,
     rho=0.5,
@@ -129,11 +129,11 @@ def aco(
 
 
 if __name__ == "__main__":
-    random.seed(42)  # radi ponovljivosti rezultata
+    random.seed(42)
 
-    g = load_graph_from_json("data/bih.json")
+    g = load_graph_from_json("data/gradovi.json")
 
-    start, cilj = "Banja Luka", "Doboj"
+    start, cilj = "Rome", "Paris"
     put, cijena, broj_iteracija, feromoni = aco(g, start, cilj)
 
     if put is None:
@@ -142,3 +142,8 @@ if __name__ == "__main__":
         print(f"Broj iteracija: {broj_iteracija}")
         print(f"Put: {' -> '.join(put)}")
         print(f"Ukupna cijena: {cijena}")
+
+    # Gradovi: Athens, Barcelona, Brussels, Calais,
+    # Cherbourg, Cologne, Copenhagen, Geneva, Gibraltar,
+    # Hamburg, Hook of Holland, Lisbon, Lyons, Madrid,
+    # Marseilles, Milan, Munich, Paris, Rome, Stockholm, Vienna.

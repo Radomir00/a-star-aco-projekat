@@ -13,17 +13,32 @@ def load_koordinate(path):
         return json.load(f)
 
 
+def vazdusna_udaljenost_km(koord_a, koord_b):
+    from math import atan2, cos, radians, sin
+
+    R = 6371.0
+    lat1, lon1 = radians(koord_a[0]), radians(koord_a[1])
+    lat2, lon2 = radians(koord_b[0]), radians(koord_b[1])
+
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+
+    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    return R * c
+
+
 def napravi_heuristiku(koordinate, cilj):
     if cilj not in koordinate:
-        raise ValueError(f"Nema koordinata za ciljni grad {cilj}")
+        raise ValueError(f"Nema koordinata za ciljni grad '{cilj}'")
 
-    cx, cy = koordinate[cilj]
+    koord_cilja = koordinate[cilj]
 
     def h(cvor):
         if cvor not in koordinate:
             return 0
-        x, y = koordinate[cvor]
-        return sqrt((x - cx) ** 2 + (y - cy) ** 2)
+        return vazdusna_udaljenost_km(koordinate[cvor], koord_cilja)
 
     return h
 
@@ -63,6 +78,9 @@ def astar(graph: Graph, prvi, trazeni, h=null_heuristic):
         opcije.remove(trenutni)
 
         for cvor, udaljenost in graph.neighbors(trenutni):
+            if udaljenost is None:
+                continue
+
             nova_udaljenost = min_udaljenosti[trenutni] + udaljenost
 
             if nova_udaljenost < min_udaljenosti[cvor]:
@@ -89,10 +107,10 @@ def astar(graph: Graph, prvi, trazeni, h=null_heuristic):
 
 
 if __name__ == "__main__":
-    g = load_graph_from_json("data/bih.json")
+    g = load_graph_from_json("data/gradovi.json")
     koordinate = load_koordinate("data/koordinate.json")
 
-    start, cilj = "Banja Luka", "Doboj"
+    start, cilj = "Rome", "Paris"
     h = napravi_heuristiku(koordinate, cilj)
 
     put, cijena, broj_iteracija = astar(g, start, cilj, h)
