@@ -49,6 +49,9 @@ def izgradi_rutu(
     while trenutni != cilj and koraci < max_koraka:
         sledeci = izaberi_sledeci_cvor(graph, feromoni, trenutni, posjeceni, alfa, beta)
 
+        if sledeci is None:
+            return None
+
         tezina_grane = graph.weight(trenutni, sledeci)
         if tezina_grane is None:
             return None
@@ -134,12 +137,13 @@ if __name__ == "__main__":
     g = load_graph_from_json("data/gradovi.json")
 
     start, cilj = "Rome", "Paris"
-    put, cijena, broj_iteracija, feromoni = aco(g, start, cilj)
+    put, cijena, broj_iteracija, feromoni = aco(
+        g, start, cilj, broj_mrava=10, broj_iteracija=50
+    )
 
     if put is None:
         print(f"ACO nije pronasao put izmedju {start} i {cilj}.")
     else:
-        print(f"Broj iteracija: {broj_iteracija}")
         print(f"Put: {' -> '.join(put)}")
         print(f"Ukupna cijena: {cijena}")
 
